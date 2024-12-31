@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Envelope</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #87ceeb; /* Blue background */
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .envelope-container {
+            position: relative;
+            width: 80%;
+            max-width: 300px;
+            height: auto;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            cursor: pointer;
+        }
+
+        .envelope.open {
+            transform: rotateX(180deg);
+            animation: colorChange 10s linear infinite;
+        }
+
+        .front,
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #4682b4; /* Initial blue color */
+            border: 1px solid #ccc;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            transition: background-color 10s ease-in-out;
+        }
+
+        .front {
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .front::before {
+            content: "❤️";
+            font-size: 36px;
+            cursor: pointer;
+        }
+
+        .back {
+            background: #5f9ea0; /* Lighter shade of blue */
+            transform: rotateX(180deg);
+        }
+
+        .letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            padding: 10px;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            border: 1px solid #ccc;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            transition: opacity 2s, transform 2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            height: auto;
+        }
+
+        .envelope.open .letter {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            animation: scrollText 2s ease-out forwards;
+        }
+
+        @keyframes scrollText {
+            0% {
+                transform: translate(-50%, -100%) scale(0.8);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Heart Animation */
+        .heart {
+            position: absolute;
+            top: 15%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            color: #ff6347;
+            z-index: 3; /* Ensure heart is on top of other elements */
+            cursor: pointer;
+            animation: heartAnimation 4s infinite;
+        }
+
+        .heart:nth-child(1) {
+            left: 15%;
+        }
+
+        .heart:nth-child(2) {
+            left: 50%;
+        }
+
+        .heart:nth-child(3) {
+            left: 85%;
+        }
+
+        @keyframes heartAnimation {
+            0% {
+                transform: translateY(0) scale(1) translateX(-50%);
+            }
+            25% {
+                transform: translateY(-50px) scale(1.2) translateX(-50%);
+            }
+            50% {
+                transform: translateY(0) scale(1) translateX(-50%);
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5) translateX(-50%);
+            }
+        }
+
+        /* Christmas lights animation */
+        .lights {
+            position: absolute;
+            top: 20%;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/zigzag-emboss.png');
+            animation: lightAnimation 3s linear infinite;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        @keyframes lightAnimation {
+            0% {
+                background-color: #ff0000;
+            }
+            25% {
+                background-color: #00ff00;
+            }
+            50% {
+                background-color: #0000ff;
+            }
+            75% {
+                background-color: #ffcc00;
+            }
+            100% {
+                background-color: #ff0000;
+            }
+        }
+
+        @keyframes colorChange {
+            0% {
+                background-color: #4682b4; /* Steel blue */
+            }
+            25% {
+                background-color: #5f9ea0; /* Cadet blue */
+            }
+            50% {
+                background-color: #87ceeb; /* Sky blue */
+            }
+            75% {
+                background-color: #add8e6; /* Light blue */
+            }
+            100% {
+                background-color: #4682b4; /* Steel blue */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="lights"></div>
+    <div class="heart" onclick="openEnvelope()">❤️</div>
+    <div class="heart" onclick="openEnvelope()">❤️</div>
+    <div class="heart" onclick="openEnvelope()">❤️</div>
+    <div class="envelope-container">
+        <div class="envelope" id="envelope">
+            <div class="front"></div>
+            <div class="back">
+                <div class="letter"> 
+                    <p>Hello, Miss Ma'am. I know this year's not been so good/nice, just like what we all expected. But I hope you enjoyed every day, week, and month that passed by. 2024 is ending, and a new year, new beginning is coming. Hope you find something that can make you smile and lift your spirits up when you're feeling down. Cheers to more kwentuhan! Happy New Year and God bless you always!</p>
+                    <p>Yours truly, <br>Your Secret Sender</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            envelope.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
